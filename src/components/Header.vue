@@ -1,7 +1,12 @@
 <template>
   <header class="main-header">
+    <div class="header-glow"></div>
     <nav class="navbar">
-      <a href="#about" class="logo" @click="navigate('#about')">⚡ Fares Ben Ali</a>
+      <a href="#about" class="logo" @click="navigate('#about')">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Fares Ben Ali</span>
+        <span class="logo-glow"></span>
+      </a>
       <button
         class="menu-toggle"
         type="button"
@@ -14,13 +19,17 @@
         <span></span>
       </button>
       <ul class="nav-links" :class="{ open: menuOpen }">
-        <li><a :class="{ active: currentSection === '#about' }" href="#about" @click.prevent="navigate('#about')">👤 About</a></li>
-        <li><a :class="{ active: currentSection === '#education' }" href="#education" @click.prevent="navigate('#education')">🎓 Education</a></li>
-        <li><a :class="{ active: currentSection === '#skills' }" href="#skills" @click.prevent="navigate('#skills')">🧠 Skills</a></li>
-        <li><a :class="{ active: currentSection === '#projects' }" href="#projects" @click.prevent="navigate('#projects')">📂 Projects</a></li>
-        <li><a :class="{ active: currentSection === '#github' }" href="#github" @click.prevent="navigate('#github')">🐙 GitHub</a></li>
-        <li><a :class="{ active: currentSection === '#experience' }" href="#experience" @click.prevent="navigate('#experience')">💼 Experience</a></li>
-        <li><a :class="{ active: currentSection === '#contact' }" href="#contact" @click.prevent="navigate('#contact')">📬 Contact</a></li>
+        <li v-for="(link, index) in navLinks" :key="link.hash" :class="`nav-item-${index}`">
+          <a
+            :class="{ active: currentSection === link.hash }"
+            :href="link.hash"
+            @click.prevent="navigate(link.hash)"
+          >
+            <span class="nav-icon">{{ link.icon }}</span>
+            <span class="nav-text">{{ link.label }}</span>
+            <span class="nav-glow"></span>
+          </a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -32,7 +41,16 @@ export default {
   data() {
     return {
       menuOpen: false,
-      currentSection: window.location.hash || '#about'
+      currentSection: window.location.hash || '#about',
+      navLinks: [
+        { hash: '#about', label: 'About', icon: '👤' },
+        { hash: '#education', label: 'Education', icon: '🎓' },
+        { hash: '#skills', label: 'Skills', icon: '🧠' },
+        { hash: '#projects', label: 'Projects', icon: '📂' },
+        { hash: '#github', label: 'GitHub', icon: '🐙' },
+        { hash: '#experience', label: 'Experience', icon: '💼' },
+        { hash: '#contact', label: 'Contact', icon: '📬' }
+      ]
     }
   },
   computed: {
@@ -85,13 +103,38 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: linear-gradient(135deg, rgba(5, 13, 28, 0.95), rgba(16, 23, 44, 0.8));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, rgba(5, 13, 28, 0.98), rgba(16, 23, 44, 0.9));
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--line);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), var(--glow);
-  border-radius: 0 0 20px 20px;
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(252, 163, 17, 0.1),
+    inset 0 -1px 0 rgba(252, 163, 17, 0.1);
+  border-radius: 0 0 24px 24px;
   padding-top: 0.25rem;
+  overflow: hidden;
+}
+
+.header-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--orange), 
+    rgba(252, 163, 17, 0.5),
+    var(--orange), 
+    transparent
+  );
+  animation: headerGlow 3s ease-in-out infinite;
+}
+
+@keyframes headerGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 .navbar {
@@ -112,58 +155,79 @@ export default {
   font-weight: 700;
   letter-spacing: 0.3px;
   white-space: nowrap;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   transition: var(--transition-medium);
   position: relative;
-}
-
-.logo::before {
-  content: '';
-  position: absolute;
-  left: -12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  background: var(--orange);
-  border-radius: 50%;
-  box-shadow: var(--glow);
-  animation: pulse 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  background: rgba(252, 163, 17, 0.05);
+  border: 1px solid transparent;
 }
 
 .logo:hover {
-  text-shadow: var(--glow-strong);
+  background: rgba(252, 163, 17, 0.15);
+  border-color: var(--orange);
   transform: scale(1.02);
+}
+
+.logo-icon {
+  font-size: 1.4rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-text {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(circle at center, rgba(252, 163, 17, 0.3), transparent 70%);
+  opacity: 0;
+  transition: var(--transition-medium);
+}
+
+.logo:hover .logo-glow {
+  opacity: 1;
+  animation: glow 2s ease-in-out infinite;
 }
 
 .menu-toggle {
   display: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   border: 1px solid var(--line);
-  background: rgba(252, 163, 17, 0.05);
+  background: rgba(252, 163, 17, 0.08);
   cursor: pointer;
-  padding: 10px;
+  padding: 12px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
   transition: var(--transition-fast);
+  position: relative;
 }
 
 .menu-toggle:hover {
-  background: rgba(252, 163, 17, 0.15);
+  background: rgba(252, 163, 17, 0.2);
   border-color: var(--orange);
+  box-shadow: 0 0 20px rgba(252, 163, 17, 0.3);
 }
 
 .menu-toggle span {
-  width: 20px;
+  width: 22px;
   height: 2px;
   background: var(--white);
   display: block;
   border-radius: 2px;
   transition: var(--transition-fast);
+  position: relative;
 }
 
 .menu-toggle[aria-expanded='true'] span:nth-child(1) {
@@ -172,6 +236,7 @@ export default {
 
 .menu-toggle[aria-expanded='true'] span:nth-child(2) {
   opacity: 0;
+  transform: translateX(-10px);
 }
 
 .menu-toggle[aria-expanded='true'] span:nth-child(3) {
@@ -181,7 +246,7 @@ export default {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 0.3rem;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
 }
@@ -191,16 +256,38 @@ export default {
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
-  padding: 0.45rem 0.7rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
   transition: var(--transition-fast);
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow: hidden;
 }
 
-.nav-links a::after {
+.nav-icon {
+  font-size: 1rem;
+  transition: var(--transition-fast);
+}
+
+.nav-text {
+  position: relative;
+  z-index: 1;
+}
+
+.nav-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(252, 163, 17, 0.2), transparent 70%);
+  opacity: 0;
+  transition: var(--transition-medium);
+}
+
+.nav-links a::before {
   content: '';
   position: absolute;
-  bottom: 4px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
@@ -214,16 +301,36 @@ export default {
 .nav-links a.active {
   color: var(--orange);
   background: rgba(252, 163, 17, 0.1);
+  transform: translateY(-2px);
 }
 
-.nav-links a:hover::after,
-.nav-links a.active::after {
+.nav-links a:hover .nav-icon,
+.nav-links a.active .nav-icon {
+  transform: scale(1.2);
+}
+
+.nav-links a:hover::before,
+.nav-links a.active::before {
   width: 60%;
 }
 
-.nav-links a.active {
-  box-shadow: 0 0 15px rgba(252, 163, 17, 0.2);
+.nav-links a:hover .nav-glow,
+.nav-links a.active .nav-glow {
+  opacity: 1;
 }
+
+.nav-links a.active {
+  box-shadow: 0 0 20px rgba(252, 163, 17, 0.3);
+}
+
+/* Staggered animation for nav items */
+.nav-item-0 { animation: slideInLeft 0.5s ease backwards; }
+.nav-item-1 { animation: slideInLeft 0.5s ease 0.05s backwards; }
+.nav-item-2 { animation: slideInLeft 0.5s ease 0.1s backwards; }
+.nav-item-3 { animation: slideInLeft 0.5s ease 0.15s backwards; }
+.nav-item-4 { animation: slideInLeft 0.5s ease 0.2s backwards; }
+.nav-item-5 { animation: slideInLeft 0.5s ease 0.25s backwards; }
+.nav-item-6 { animation: slideInLeft 0.5s ease 0.3s backwards; }
 
 @media (max-width: 900px) {
   .menu-toggle {
@@ -236,16 +343,19 @@ export default {
     right: 1rem;
     left: 1rem;
     display: grid;
-    gap: 0.35rem;
-    background: linear-gradient(180deg, rgba(20, 33, 61, 0.98), rgba(11, 19, 40, 0.98));
+    gap: 0.4rem;
+    background: linear-gradient(180deg, rgba(20, 33, 61, 0.99), rgba(11, 19, 40, 0.99));
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 0.8rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), var(--glow);
-    transform: translateY(-10px);
+    border-radius: 20px;
+    padding: 1rem;
+    box-shadow: 
+      0 25px 60px rgba(0, 0, 0, 0.5), 
+      0 0 40px rgba(252, 163, 17, 0.1),
+      inset 0 1px 0 rgba(252, 163, 17, 0.1);
+    transform: translateY(-15px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   .nav-links.open {
@@ -255,16 +365,19 @@ export default {
   }
 
   .nav-links a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     width: 100%;
-    padding: 0.85rem 1rem;
-    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    border-radius: 12px;
     font-size: 1rem;
   }
 
   .nav-links a:hover,
   .nav-links a.active {
-    background: rgba(252, 163, 17, 0.15);
+    background: rgba(252, 163, 17, 0.2);
+    transform: translateX(5px);
   }
 }
 </style>
