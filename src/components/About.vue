@@ -31,7 +31,7 @@
         <div class="photo-ring-inner"></div>
         <img
           class="profile-photo"
-          src="https://res.cloudinary.com/dn2rjd2fq/image/upload/v1778013853/Screenshot_2026-05-05-21-43-10-58_965bbf4d18d205f782c6b8409c5773a4_tinpze.jpg"
+          src="https://res.cloudinary.com/dn2rjd2fq/image/upload/v1778026288/width_600_tarh6f.png"
           alt="Fares Ben Ali profile photo"
           loading="lazy"
         />
