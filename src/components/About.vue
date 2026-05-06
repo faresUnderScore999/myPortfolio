@@ -31,7 +31,7 @@
         <div class="photo-ring-inner"></div>
         <img
           class="profile-photo"
-          src="https://media.licdn.com/dms/image/v2/D5603AQHzEimaHye1uw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1728967101373?e=1776297600&v=beta&t=uMR5IOiiFm9-V8UKDjBWpFTRuzi14ozUJwGt8BnglxY"
+          src="https://res.cloudinary.com/dn2rjd2fq/image/upload/v1778013853/Screenshot_2026-05-05-21-43-10-58_965bbf4d18d205f782c6b8409c5773a4_tinpze.jpg"
           alt="Fares Ben Ali profile photo"
           loading="lazy"
         />
