@@ -5,7 +5,7 @@
       <article class="education-item">
         <div class="edu-icon">🎓</div>
         <div class="edu-content">
-          <h3>Master's Degree in Computer Science</h3>
+          <h3>Engineering Degree in Computer Science</h3>
           <p class="institution">Ecole Supérieure Privée d'Ingénierie et de Technologies (ESPRIT)</p>
           <p class="period">Current</p>
           <p class="description">Full Stack Development • Software Engineering</p>
